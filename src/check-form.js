@@ -256,6 +256,8 @@ var Form =
 	    bind: function bind(form) {
 	        var _ = this;
 
+	        console.log(form)
+
 	        form.addEventListener('submit', _.submitListener, false);
 	        form.addEventListener('input', _.inputListener, false);
 	        form.addEventListener('keydown', _.inputListener, false);
