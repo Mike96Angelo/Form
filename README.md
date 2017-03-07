@@ -54,7 +54,7 @@ var Form = require('check-form');
 var EMAIL = /^[A-Za-z][A-Za-z0-9]{2,}[@][A-Za-z0-9\-]+[.][A-Za-z0-9]{2,}$/;
 
 function validName(key, value, callback) {
-    value = value.trim();
+    value = value ? value.trim() : '';
     var valid = /^[A-Za-z][A-Za-z\-]{2,}$/.test(value);
 
     callback({
@@ -69,7 +69,7 @@ var signupForm = new Form({
         given_name: validName,
         surname: validName,
         email: function (key, value, callback) {
-            value = value.trim();
+            value = value ? value.trim() : '';
             var valid = EMAIL.test(value);
 
             callback({
@@ -79,7 +79,7 @@ var signupForm = new Form({
             });
         },
         username: function (key, value, callback) {
-            value = value.trim();
+            value = value ? value.trim() : '';
             var valid = /^[A-Za-z][A-Za-z0-9]{2,}$/.test(value);
             if (valid) {
                 //check if username is available

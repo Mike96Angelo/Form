@@ -199,6 +199,8 @@ Form.definePrototype({
                     form.reset();
                 }
             });
+
+            return false;
         };
     },
 

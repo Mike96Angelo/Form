@@ -246,6 +246,8 @@ var Form =
 	                    form.reset();
 	                }
 	            });
+
+	            return false;
 	        };
 	    },
 
