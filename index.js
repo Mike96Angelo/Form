@@ -209,7 +209,7 @@ Form.definePrototype({
     bind: function bind(form) {
         var _ = this;
 
-        form.addEventListener('submit', _.submitListener, true);
+        form.addEventListener('submit', _.submitListener, false);
         form.addEventListener('input', _.inputListener, false);
         form.addEventListener('keydown', _.inputListener, false);
     },
@@ -217,7 +217,7 @@ Form.definePrototype({
     unbind: function unbind(form) {
         var _ = this;
 
-        form.removeEventListener('submit', _.submitListener, true);
+        form.removeEventListener('submit', _.submitListener, false);
         form.removeEventListener('input', _.inputListener, false);
         form.removeEventListener('keydown', _.inputListener, false);
     },
