@@ -1,0 +1,23 @@
+{
+  "name": "check-form",
+  "version": "0.5.0",
+  "description": "Simple yet powerful way to build and validate HTML forms.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mike96Angelo/Form.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mike96Angelo/Form/issues"
+  },
+  "homepage": "https://github.com/Mike96Angelo/Form#readme",
+  "dependencies": {
+    "form-serialize": "^0.7.1",
+    "generate-js": "^3.1.2"
+  }
+}
