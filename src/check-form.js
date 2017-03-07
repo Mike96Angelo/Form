@@ -99,41 +99,40 @@ var Form =
 	    validate: function validate(name, callback) {
 	        var _ = this;
 	        var valid = true;
-	        var isAsync = false;
+
+	        function _callback_(valid) {
+	            if (_callback_.called) {
+	                return console.error('Main Callback already called.');
+	            }
+	            _callback_.called = true;
+
+	            callback(valid);
+	        }
+
+	        var _cbs_ = [];
 
 	        function mkcb(name) {
-	            return function cb(validation) {
-	                if (cb.called) {
-	                    return console.error('Callback already called.');
-	                }
-
-	                _.validation[name] = validation;
-
-	                if (_.app) {
-	                    _.app.render();
-	                }
-
-	                cb.called = true;
-
-	                if (callback) {
-	                    var done = true;
-	                    var valid = true;
-	                    for (name in _.fields) {
-	                        if (_.fields.hasOwnProperty(name)) {
-	                            if (!_.validation[name]) {
-	                                done = false;
-	                                break;
-	                            } else if (!_.validation[name].valid) {
-	                                valid = false;
-	                            }
-	                        }
+	            function cb(validation) {
+	                setTimeout(function () {
+	                    if (cb.called) {
+	                        return console.error('Callback already called.');
 	                    }
 
-	                    if (done) {
-	                        callback(valid);
+	                    cb.called = true;
+
+	                    _.validation[name] = validation;
+
+	                    _cbs_.splice(_cbs_.indexOf(cb), 1);
+
+	                    if (_cbs_.length === 0) {
+	                        _callback_(_.valid);
 	                    }
-	                }
-	            };
+	                }, 0);
+	            }
+
+	            _cbs_.push(cb);
+
+	            return cb;
 	        }
 
 	        var result;
@@ -254,11 +253,9 @@ var Form =
 	    bind: function bind(form) {
 	        var _ = this;
 
-	        console.log(form)
-
-	        console.log(form.addEventListener('submit', _.submitListener, false));
-	        console.log(form.addEventListener('input', _.inputListener, false));
-	        console.log(form.addEventListener('keydown', _.inputListener, false));
+	        form.addEventListener('submit', _.submitListener, false);
+	        form.addEventListener('input', _.inputListener, false);
+	        form.addEventListener('keydown', _.inputListener, false);
 	    },
 
 	    unbind: function unbind(form) {
