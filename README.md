@@ -14,7 +14,7 @@ $ npm install check-form
 # What Check Form Looks Like
 
 * [Docs](docs/check-form.md)
-* [JSFiddle](https://jsfiddle.net/fypyk2jp/4/)
+* [JSFiddle](https://jsfiddle.net/h8fzrdd3/5/)
 
 ### app.html:
 
