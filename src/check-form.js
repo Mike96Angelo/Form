@@ -236,6 +236,8 @@ var Form =
 
 	        return function EVENTS_SUBMIT(evt) {
 	            evt.preventDefault();
+	            console.log('here');
+	            alert('here');
 
 	            var form = evt.target;
 
