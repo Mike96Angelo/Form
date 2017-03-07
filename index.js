@@ -211,9 +211,9 @@ Form.definePrototype({
 
         console.log(form)
 
-        form.addEventListener('submit', _.submitListener, false);
-        form.addEventListener('input', _.inputListener, false);
-        form.addEventListener('keydown', _.inputListener, false);
+        console.log(form.addEventListener('submit', _.submitListener, false));
+        console.log(form.addEventListener('input', _.inputListener, false));
+        console.log(form.addEventListener('keydown', _.inputListener, false));
     },
 
     unbind: function unbind(form) {
