@@ -96,7 +96,7 @@ Form.definePrototype({
             if (_.fields && _.fields[name] && _.fields[name]) {
                 field_cb = mkcb(name);
 
-                result = _.fields[name](_.data[name], field_cb);
+                result = _.fields[name](name, _.data[name], field_cb);
 
                 if (result) {
                     _.validation[name] = result;
@@ -113,7 +113,7 @@ Form.definePrototype({
                 if (_.fields.hasOwnProperty(name)) {
                     field_cb = mkcb(name);
 
-                    result = _.fields[name](_.data[name], field_cb);
+                    result = _.fields[name](name, _.data[name], field_cb);
 
                     if (result) {
                         _.validation[name] = result;
