@@ -6,7 +6,7 @@ var Form = Generator.generate(function Form(options) {
 
     _.defineProperties(options);
     _.inputListener = _._inputListener();
-    _.sumitListener = _._submitListener();
+    _.submitListener = _._submitListener();
     _.reset();
 });
 
