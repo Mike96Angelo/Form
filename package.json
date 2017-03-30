@@ -1,6 +1,6 @@
 {
   "name": "check-form",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "Simple yet powerful way to build and validate HTML forms.",
   "main": "index.js",
   "scripts": {

@@ -53,14 +53,14 @@ var Form = require('check-form');
 
 var EMAIL = /^[A-Za-z][A-Za-z0-9]{2,}[@][A-Za-z0-9\-]+[.][A-Za-z0-9]{2,}$/;
 
-function validName(key, value, callback) {
-    value = value ? value.trim() : '';
+function validName(validation) {
+    var value = validation.value.trim();
     var valid = /^[A-Za-z][A-Za-z\-]{2,}$/.test(value);
 
-    callback({
+    validation.setValidation({
         valid: valid,
         value: value,
-        reason: valid ? '' : key + ' must not contain non-letter characters.'
+        message: valid ? '' : validation.key + ' must not contain non-letter characters.'
     });
 }
 
@@ -68,19 +68,31 @@ var signupForm = new Form({
     fields: {
         given_name: validName,
         surname: validName,
-        email: function (key, value, callback) {
-            value = value ? value.trim() : '';
+        email: function (validation) {
+            var value = validation.value.trim();
             var valid = EMAIL.test(value);
 
-            callback({
+            validation.setValidation({
                 valid: valid,
                 value: value,
-                reason: valid ? '' : 'invalid email.'
+                message: valid ? '' : 'invalid email.'
             });
         },
-        username: function (key, value, callback) {
-            value = value ? value.trim() : '';
+        username: function (validation) {
+            var value = validation.value.trim();
             var valid = /^[A-Za-z][A-Za-z0-9]{2,}$/.test(value);
+
+            validation.setValidation({
+                valid: valid ? null : false,
+                // if valid is null the form will wait for validation.callback to finish validating.
+                value: value,
+                message: value.length < 3 ?
+                'username must be at least 3 characters.' :
+                valid ?
+                'checking availability' :
+                'username must not contain special characters.'
+            });
+
             if (valid) {
                 //check if username is available
                 myAPI.availableUsername(
@@ -89,34 +101,27 @@ var signupForm = new Form({
                     },
                     function (err, res) {
                         valid = err ? false : res.available;
-                        callback({
-                            valid: valid,
+                        validation.callback({
+                            valid: !!valid,
+                            // at this point you should set valid to either true or false
                             value: value,
-                            reason: err ?
+                            message: err ?
                             'something went wrong try again later.' :
                             res.available ?
                             '' : 'username unavailable.'
                         });
                     }
                 )
-            } else {
-                callback({
-                    valid: valid,
-                    value: value,
-                    reason: value.length < 3 ?
-                    'username must be at least 3 characters.' :
-                    valid ?
-                    '' : 'username must not contain special characters.'
-                });
             }
         },
-        password: function (key, value, callback) {
+        password: function (validation) {
+            var value = validation.value;
             var valid = value.length >= 6;
 
-            callback({
+            validation.setValidation({
                 valid: valid,
                 value: value,
-                reason: valid ?
+                message: valid ?
                 '' : 'password must be at least 6 characters.'
             });
         }
@@ -125,23 +130,14 @@ var signupForm = new Form({
         // do something with data
         console.log('data', data);
         // callback( error, success )
-    },
-    error: function (validation) {
-        // do something with validation
-        console.log('validation', validation);
-        // {
-        //     <field-name>: {
-        //         valid: <Boolean>,
-        //         value: <input-value>,
-        //         reason: <error-message>
-        //     },
-        //     ...
-        // }
     }
 });
 
-// signupForm.validate(callback)
-// signupForm.submit(callback)
+// signupForm.fill(data) returns self
+// signupForm.serialize(FormElement) returns self
+// signupForm.validate([key]) returns (true|false|null)
+// signupForm.submit(callback) returns (true|false|null)
+// signupForm.reset() returns self
 // signupForm.bind(formElement)
 // signupForm.unbind(formElement)
 ```
