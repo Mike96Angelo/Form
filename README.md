@@ -106,8 +106,7 @@ var signupForm = new Form({
     },
     action: function (data, callback) {
         // do something with data
-        alert('data '+JSON.stringify(data, null, 2));
-				callback(/*err, res*/)
+        callback(/*err, res*/);
     }
 });
 
