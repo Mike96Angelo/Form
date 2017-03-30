@@ -68,6 +68,7 @@ var Form =
 	        _.inputListener = _._inputListener();
 	        _.submitListener = _._submitListener();
 	        _.submitted = 'not-sent';
+	        _.formElement = null;
 	        _.reset();
 	    }
 	);
@@ -148,8 +149,8 @@ var Form =
 	        if (key) {
 	            valid = _._validate(key);
 	        } else {
-	            for (key in fields) {
-	                if (fields.hasOwnProperty(key)) {
+	            for (key in _.fields) {
+	                if (_.fields.hasOwnProperty(key)) {
 	                    var validFeild = _._validate(key, true);
 	                    if (valid !== false && validFeild === false) {
 	                        valid = false;
@@ -260,7 +261,11 @@ var Form =
 	            _.serialize(form);
 
 	            _.submit(function (err) {
-	                if (!err) {
+	                if (err) {
+	                    if (_.error) {
+	                        _.error(err);
+	                    }
+	                } else {
 	                    form.reset();
 	                }
 	            });
