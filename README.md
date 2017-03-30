@@ -83,36 +83,14 @@ var signupForm = new Form({
             var valid = /^[A-Za-z][A-Za-z0-9]{2,}$/.test(value);
 
             validation.setValidation({
-                valid: valid ? null : false,
-                // if valid is null the form will wait for validation.callback to finish validating.
+                valid: valid,
                 value: value,
                 message: value.length < 3 ?
                 'username must be at least 3 characters.' :
                 valid ?
-                'checking availability' :
+                '' :
                 'username must not contain special characters.'
             });
-
-            if (valid) {
-                //check if username is available
-                myAPI.availableUsername(
-                    {
-                        username: value
-                    },
-                    function (err, res) {
-                        valid = err ? false : res.available;
-                        validation.callback({
-                            valid: !!valid,
-                            // at this point you should set valid to either true or false
-                            value: value,
-                            message: err ?
-                            'something went wrong try again later.' :
-                            res.available ?
-                            '' : 'username unavailable.'
-                        });
-                    }
-                )
-            }
         },
         password: function (validation) {
             var value = validation.value;
@@ -128,8 +106,8 @@ var signupForm = new Form({
     },
     action: function (data, callback) {
         // do something with data
-        console.log('data', data);
-        // callback( error, success )
+        alert('data '+JSON.stringify(data, null, 2));
+				callback(/*err, res*/)
     }
 });
 
